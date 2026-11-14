@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Система электронного обучения ИжГТУ</title>
+  <style>
+    :root {
+      --ink: #111111;
+      --paper: #faf7f2;
+      --accent: #ff5a1f;
+      --accent-soft: #ffe4d9;
+      --line: #e6e0d6;
+      --muted: #6b6b6b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Georgia", "Times New Roman", serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.65;
+      font-size: 17px;
+    }
+
+    .sans {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+
+    /* Верхняя строка */
+    .topbar {
+      border-bottom: 1px solid var(--line);
+      padding: 18px 0;
+    }
+
+    .topbar .inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .topbar .brand {
+      color: var(--ink);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+    }
+
+    /* Обложка */
+    .cover {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 24px 60px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .cover .kicker {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 22px;
+    }
+
+    .cover h1 {
+      font-size: clamp(40px, 7vw, 88px);
+      line-height: 0.98;
+      letter-spacing: -0.03em;
+      margin: 0 0 24px;
+      font-weight: 400;
+    }
+
+    .cover h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .cover .lede {
+      font-size: clamp(18px, 2vw, 22px);
+      max-width: 720px;
+      color: #333;
+      margin: 0;
+    }
+
+    /* Основная сетка */
+    .layout {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 24px;
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    /* Боковое меню */
+    .side {
+      position: sticky;
+      top: 30px;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .side h4 {
+      font-size: 11px;
+      color: var(--muted);
+      margin: 0 0 14px;
+      letter-spacing: 0.14em;
+    }
+
+    .side a {
+      display: block;
+      color: var(--ink);
+      text-decoration: none;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--line);
+      transition: color 0.15s ease;
+    }
+
+    .side a:hover {
+      color: var(--accent);
+    }
+
+    /* Контент */
+    .content {
+      min-width: 0;
+    }
+
+    .content section {
+      margin-bottom: 64px;
+      scroll-margin-top: 30px;
+    }
+
+    .content h2 {
+      font-size: clamp(26px, 3.5vw, 40px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin: 0 0 20px;
+      font-weight: 400;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 12px;
+    }
+
+    .content h2 span {
+      color: var(--accent);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      vertical-align: top;
+      margin-right: 12px;
+      position: relative;
+      top: 8px;
+    }
+
+    .content p {
+      margin: 0 0 16px;
+      color: #2a2a2a;
+    }
+
+    .content p:first-of-type::first-letter {
+      float: left;
+      font-size: 64px;
+      line-height: 0.85;
+      padding: 6px 12px 0 0;
+      color: var(--accent);
+      font-family: "Georgia", serif;
+    }
+
+    /* Возможности — крупные строки */
+    .feature-list {
+      list-style: none;
+      margin: 24px 0 0;
+      padding: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .feature-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 18px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 18px;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+
+    .feature-list li b {
+      flex-shrink: 0;
+      font-size: 13px;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      font-weight: 700;
+      width: 32px;
+    }
+
+    /* Карточки материалов */
+    .material-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+      margin: 28px 0 0;
+      border: 1px solid var(--ink);
+    }
+
+    .material-grid div {
+      padding: 22px 24px;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: 15px;
+      border-right: 1px solid var(--ink);
+      border-bottom: 1px solid var(--ink);
+    }
+
+    .material-grid div:nth-child(2n) {
+      border-right: none;
+    }
+
+    .material-grid div:nth-last-child(-n+2) {
+      border-bottom: none;
+    }
+
+    .material-grid div strong {
+      display: block;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    /* Цитата-выноска */
+    .callout {
+      margin: 32px 0;
+      padding: 24px 28px;
+      background: var(--accent-soft);
+      border-left: 4px solid var(--accent);
+      font-style: italic;
+      font-size: 19px;
+      line-height: 1.5;
+    }
+
+    /* Две колонки текста в разделе заданий */
+    .two-col {
+      column-count: 2;
+      column-gap: 40px;
+      margin-top: 12px;
+    }
+
+    .two-col p {
+      margin-top: 0;
+    }
+
+    /* Футер */
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 40px 24px;
+      text-align: center;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    footer b {
+      color: var(--ink);
+    }
+
+    @media (max-width: 820px) {
+      .layout {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        padding: 40px 20px;
+      }
+
+      .side {
+        position: static;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 16px;
+      }
+
+      .side a {
+        display: inline-block;
+        margin-right: 16px;
+        border: none;
+      }
+
+      .two-col {
+        column-count: 1;
+      }
+
+      .cover {
+        padding: 48px 20px 40px;
+      }
+
+      .material-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .material-grid div {
+        border-right: none;
+      }
+
+      .material-grid div:nth-last-child(2) {
+        border-bottom: 1px solid var(--ink);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="cover">
+    <div class="kicker">Информационный сайт</div>
+    <h1>Система электронного обучения <em>ИжГТУ</em></h1>
+    <p class="lede">
+      Единое онлайн-пространство, в котором собраны учебные материалы,
+      задания, тесты и результаты обучения.
+    </p>
+  </header>
+
+  <div class="layout">
+
+    <aside class="side">
+      <h4>Содержание</h4>
+      <a href="#about">О среде</a>
+      <a href="#features">Возможности</a>
+      <a href="#materials">Материалы</a>
+      <a href="#tasks">Задания и тесты</a>
+    </aside>
+
+    <div class="content">
+
+      <section id="about">
+        <h2><span>01</span> Что это такое</h2>
+        <p>
+          Система электронного обучения — это информационная система,
+          которая объединяет учебные материалы, задания, тесты и результаты
+          обучения в едином онлайн-пространстве. Среда построена на базе
+          Moodle — распространённой системы управления обучением (LMS),
+          которая используется во многих университетах и организациях.
+        </p>
+        <p>
+          Основная идея системы — сделать учебный процесс доступным и удобным:
+          материалы открываются в любое время, задания выполняются онлайн, а
+          результаты и комментарии сохраняются в системе. Участники обучения
+          получают единую точку входа ко всем нужным ресурсам.
+        </p>
+        <div class="callout">
+          Система не заменяет традиционные занятия, а дополняет их: помогает
+          организовать самостоятельную работу, проводить текущий контроль
+          и публиковать объявления.
+        </div>
+        <p>
+          Все материалы хранятся централизованно, что упрощает поиск и
+          повторное использование ресурсов. Отдельное внимание уделяется
+          доступности: система работает в браузере на компьютере, планшете и
+          телефоне, не требует установки дополнительного программного
+          обеспечения и поддерживает адаптивный интерфейс.
+        </p>
+      </section>
+
+      <section id="features">
+        <h2><span>02</span> Основные возможности</h2>
+        <ul class="feature-list">
+          <li><b>01</b>Размещение учебных материалов: файлы, страницы, ссылки, презентации, видео</li>
+          <li><b>02</b>Структурирование курсов по темам и разделам</li>
+          <li><b>03</b>Задания с отправкой работ, комментариями и проверкой</li>
+          <li><b>04</b>Тесты с автоматической проверкой и несколькими попытками</li>
+          <li><b>05</b>Журнал оценок и просмотр прогресса обучения</li>
+          <li><b>06</b>Уведомления о сроках, новых материалах и событиях</li>
+          <li><b>07</b>Доступ с компьютера, планшета и телефона через браузер</li>
+          <li><b>08</b>Единая точка входа ко всем учебным ресурсам</li>
+        </ul>
+      </section>
+
+      <section id="materials">
+        <h2><span>03</span> Учебные материалы</h2>
+        <p>
+          В системе можно размещать текстовые страницы, файлы документов,
+          презентации, ссылки на внешние ресурсы и видеоматериалы. Материалы
+          группируются по темам и разделам курса, что упрощает навигацию
+          и изучение.
+        </p>
+
+        <div class="material-grid">
+          <div><strong>Текст</strong>Страницы, документы, файлы</div>
+          <div><strong>Медиа</strong>Презентации и видеоматериалы</div>
+          <div><strong>Ссылки</strong>Внешние ресурсы и источники</div>
+          <div><strong>Структура</strong>Темы и разделы курса</div>
+        </div>
+
+        <p style="margin-top: 24px;">
+          Для каждого материала можно указать описание, сроки изучения и
+          дополнительные пояснения. Это помогает участникам обучения
+          ориентироваться в структуре курса и понимать, какие ресурсы важны
+          в первую очередь.
+        </p>
+        <p>
+          Материалы можно обновлять и дополнять по мере необходимости. Все
+          изменения сохраняются в системе.
+        </p>
+      </section>
+
+      <section id="tasks">
+        <h2><span>04</span> Задания и тесты</h2>
+        <div class="two-col">
+          <p>
+            Задания позволяют принимать работы в электронном виде, оставлять
+            комментарии и выставлять оценки. Можно настроить сроки сдачи,
+            формат загрузки файлов и дополнительные требования к оформлению
+            работы.
+          </p>
+          <p>
+            Тесты поддерживают различные типы вопросов: с одним и несколькими
+            вариантами ответа, коротким ответом, соответствием и другими.
+            Для тестов можно задать ограничение по времени, количество
+            попыток и порядок прохождения вопросов.
+          </p>
+          <p>
+            Результаты заданий и тестов сохраняются в журнале оценок. Это
+            позволяет отслеживать прогресс, видеть историю попыток и
+            своевременно получать обратную связь по выполненным работам.
+          </p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</body>
+</html>
